@@ -1,15 +1,75 @@
+"use client";
+
 import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+import { Checkbox } from "../ui/checkbox";
+import Link from "next/link";
+import { Label } from "../ui/label";
 
 const LoginForm = () => {
-  return (
-    <div>
-      <Field>
-        <FieldLabel htmlFor="email">Email Address</FieldLabel>
+  const [showPassword, setShowPassword] = useState(false);
 
-        <Input id="email" type="text" placeholder="example@gmail.com" />
+  return (
+    <form className="w-full">
+      <div className="space-y-5 mb-6.25">
+        <Field>
+          <FieldLabel htmlFor="email">Email Address</FieldLabel>
+
+          <Input
+            inputSize="lg"
+            id="email"
+            type="text"
+            placeholder="example@gmail.com"
+          />
+        </Field>
+
+        <Field>
+          <FieldLabel htmlFor="password">Password</FieldLabel>
+
+          <div className="relative flex items-center">
+            <Input
+              inputSize="lg"
+              id="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter your password"
+              className="pr-10"
+            />
+
+            <Button
+              className="absolute right-2"
+              type="button"
+              variant="ghost"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeOff /> : <Eye />}
+            </Button>
+          </div>
+        </Field>
+      </div>
+
+      <Field
+        orientation={"horizontal"}
+        className="mb-5 justify-between gap-4 flex-col md:flex-row"
+      >
+        <div className="flex items-center gap-2">
+          <Checkbox id="remember" />
+          <Label htmlFor="remember" className="cursor-pointer font-normal">
+            Remember me
+          </Label>
+        </div>
+
+        <Link href="/reset-password" className="text-primary">
+          Reset Password?
+        </Link>
       </Field>
-    </div>
+
+      <Button size="lg" className="w-full mb-7.5">
+        Log in
+      </Button>
+    </form>
   );
 };
 
