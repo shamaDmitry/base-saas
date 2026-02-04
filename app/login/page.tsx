@@ -9,7 +9,7 @@ import Link from "next/link";
 
 const LoginPage = () => {
   return (
-    <section className="container flex min-h-screen w-full bg-[#FAFAFA] flex-col ">
+    <section className="container flex min-h-screen w-full bg-[#FAFAFA] flex-col md:flex-row">
       <div className="flex-1 md:max-w-md min-h-screen bg-white flex flex-col justify-center items-center p-12">
         <Logo className="text-primary size-23 mb-10" />
 
