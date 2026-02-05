@@ -10,7 +10,7 @@ import Link from "next/link";
 const SignUpPage = () => {
   return (
     <section className="container flex min-h-screen w-full bg-background flex-col md:flex-row">
-      <div className="flex-1 md:max-w-md min-h-screen bg-white flex flex-col justify-center items-center p-12">
+      <div className="flex-1 md:max-w-md min-h-screen bg-white flex flex-col justify-center items-center md:p-12 p-4">
         <Logo className="text-primary size-23 mb-10" />
 
         <h1 className="text-2xl font-semibold mb-10">Sign Up</h1>
@@ -39,7 +39,7 @@ const SignUpPage = () => {
         </p>
       </div>
 
-      <div className="flex-1 flex flex-col items-center justify-center">
+      <div className="flex-1 flex flex-col items-center justify-center md:p-12 p-4">
         <Image
           src="/images/signup-bg.svg"
           alt="signup-bg"

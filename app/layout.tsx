@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${nunitoSans.variable} ${geistMono.variable} antialiased`}
+        className={`${nunitoSans.variable} ${geistMono.variable} antialiased text-foreground`}
       >
         {children}
       </body>
