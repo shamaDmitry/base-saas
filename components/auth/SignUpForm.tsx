@@ -50,7 +50,7 @@ const SignUpForm = () => {
         </Field>
 
         <Field>
-          <FieldLabel htmlFor="password">Password</FieldLabel>
+          <FormLabel htmlFor="password">Password</FormLabel>
 
           <div className="relative flex items-center">
             <Input
@@ -77,8 +77,9 @@ const SignUpForm = () => {
         orientation={"horizontal"}
         className="mb-5 justify-between gap-4 flex-col md:flex-row"
       >
-        <div className="flex items-center gap-2">
-          <Checkbox id="agree" />
+        <div className="flex gap-2">
+          <Checkbox id="agree" className="size-3.75 mt-1.5 mr-0.75" />
+
           <Label
             htmlFor="agree"
             className="cursor-pointer font-normal block leading-tight text-base"

@@ -5,9 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { Checkbox } from "../ui/checkbox";
+import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
-import { Label } from "../ui/label";
+import { Label } from "@/components/ui/label";
+import FormLabel from "@/components/auth/FormLabel";
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,7 +17,7 @@ const LoginForm = () => {
     <form className="w-full">
       <div className="space-y-5 mb-6.25">
         <Field>
-          <FieldLabel htmlFor="email">Email Address</FieldLabel>
+          <FormLabel htmlFor="email">Email Address</FormLabel>
 
           <Input
             inputSize="lg"
@@ -27,7 +28,7 @@ const LoginForm = () => {
         </Field>
 
         <Field>
-          <FieldLabel htmlFor="password">Password</FieldLabel>
+          <FormLabel htmlFor="password">Password</FormLabel>
 
           <div className="relative flex items-center">
             <Input
