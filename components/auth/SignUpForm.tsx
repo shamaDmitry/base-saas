@@ -102,7 +102,7 @@ const SignUpForm = () => {
         </div>
       </Field>
 
-      <Button size="lg" className="w-full mb-7.5">
+      <Button size="2xl" className="w-full mb-7.5">
         Create account
       </Button>
     </form>

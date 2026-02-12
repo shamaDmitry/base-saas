@@ -67,7 +67,7 @@ const LoginForm = () => {
         </Link>
       </Field>
 
-      <Button size="lg" className="w-full mb-7.5">
+      <Button size="2xl" className="w-full mb-7.5">
         Log in
       </Button>
     </form>

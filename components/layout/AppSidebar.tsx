@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import {
   LayoutDashboard,
   BarChart2,
@@ -11,7 +10,6 @@ import {
   Bell,
   Settings,
   LogOut,
-  Hexagon,
 } from "lucide-react";
 
 import {
@@ -22,9 +20,12 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Logo from "@/components/logo";
+import { cn } from "@/lib/utils";
 
 const navMain = [
   { title: "Dashboard", url: "#", icon: LayoutDashboard, isActive: true },
@@ -38,85 +39,82 @@ const navMain = [
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  // 1. Hook into the sidebar state
   const { state } = useSidebar();
 
-  // Helper to determine if we are in "expanded" mode
   const isExpanded = state === "expanded";
 
   return (
     <Sidebar
       collapsible="icon"
       className="border-r-0 bg-white transition-all duration-300 ease-in-out"
-      // Force the width to 218px when open
       style={{ "--sidebar-width": "218px" } as React.CSSProperties}
       {...props}
     >
-      {/* Header: Logo */}
-      <SidebarHeader className="h-20 justify-center">
+      <SidebarHeader className="justify-center pt-12.5 pb-9.5">
         <div
-          className={`flex items-center px-2 ${isExpanded ? "gap-3" : "justify-center"}`}
+          className={cn(
+            "flex items-center justify-center",
+            isExpanded ? "gap-3" : "justify-center",
+          )}
         >
-          <div className="flex aspect-square size-10 items-center justify-center rounded-xl bg-indigo-600 text-white shadow-indigo-200 shadow-lg">
-            <Hexagon className="size-6 fill-current" />
-          </div>
+          <Logo className="text-primary size-10.5"></Logo>
 
-          {/* 2. Conditionally render Text based on state */}
           {isExpanded && (
-            <span className="truncate font-bold text-2xl text-slate-900 animate-in fade-in slide-in-from-left-2 duration-300">
+            <span className="truncate font-semibold text-2xl text-foreground animate-in fade-in slide-in-from-left-2 duration-300">
               Base
             </span>
           )}
         </div>
       </SidebarHeader>
 
-      {/* Body: Navigation Items */}
-      <SidebarContent className="px-3 py-4">
+      <SidebarContent className="px-3">
         <SidebarMenu className="gap-2">
-          {navMain.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton
-                tooltip={!isExpanded ? item.title : undefined}
-                isActive={item.isActive}
-                className={`
+          {navMain.map((item) => {
+            return (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  tooltip={!isExpanded ? item.title : undefined}
+                  isActive={item.isActive}
+                  className={`
                   h-12 rounded-xl transition-all duration-200
                   hover:bg-slate-50 hover:text-indigo-600
                   data-[active=true]:bg-indigo-50 data-[active=true]:text-indigo-600
                   ${isExpanded ? "justify-start px-4" : "justify-center px-0"}
                 `}
-              >
-                <item.icon className="!size-6 shrink-0" />
+                >
+                  <item.icon className="size-6! shrink-0" />
 
-                {/* Text Label */}
-                {isExpanded && (
-                  <span className="ml-3 text-sm font-medium animate-in fade-in slide-in-from-left-1">
-                    {item.title}
-                  </span>
-                )}
+                  {isExpanded && (
+                    <span className="ml-3 text-sm font-medium animate-in fade-in slide-in-from-left-1">
+                      {item.title}
+                    </span>
+                  )}
 
-                {/* Badges */}
-                {item.badge && isExpanded && (
-                  <span className="ml-auto flex size-5 items-center justify-center rounded-full bg-red-100 text-[10px] font-bold text-red-500">
-                    {item.badge}
-                  </span>
-                )}
-                {/* Red dot for collapsed view */}
-                {item.badge && !isExpanded && (
-                  <div className="absolute top-3 right-3 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
-                )}
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+                  {item.badge && isExpanded && (
+                    <span className="ml-auto flex size-5 items-center justify-center rounded-full bg-red-100 text-[10px] font-bold text-red-500">
+                      {item.badge}
+                    </span>
+                  )}
+
+                  {item.badge && !isExpanded && (
+                    <div className="absolute top-3 right-3 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
+                  )}
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            );
+          })}
         </SidebarMenu>
       </SidebarContent>
 
-      {/* Footer: User Profile */}
       <SidebarFooter className="p-4">
+        <SidebarTrigger className="h-10 w-10 rounded-xl bg-white text-slate-500 shadow-sm border border-slate-100 hover:bg-slate-50" />
+
         <div
           className={`flex items-center rounded-2xl bg-slate-50 p-2 ${isExpanded ? "gap-3" : "justify-center"}`}
         >
           <Avatar className="h-10 w-10 rounded-xl border-2 border-white shadow-sm">
-            <AvatarImage src="/avatars/user.jpg" />
+            <AvatarImage src="/images/avatar.png" />
+
             <AvatarFallback className="rounded-xl bg-pink-100 text-pink-600 font-bold">
               EA
             </AvatarFallback>

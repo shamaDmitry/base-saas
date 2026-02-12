@@ -20,11 +20,22 @@ const buttonVariants = cva(
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
       },
+
+      // 30px	xs
+      // 33px	sm
+      // 40px	default
+      // 44px	lg
+      // 45px	xl
+      // 50px	2xl
+
       size: {
-        default: "h-9 px-4 py-2 has-[>svg]:px-3",
-        xs: "h-6 gap-1 rounded-md px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
-        lg: "h-12.5 font-semibold text-base rounded-md px-6 has-[>svg]:px-4",
+        xs: "h-7.5 gap-1 rounded-md px-2 text-xs has-[>svg]:px-1.5 [&_svg:not([class*='size-'])]:size-3",
+        sm: "h-8.25 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
+        default: "h-10 px-4 py-2 has-[>svg]:px-3",
+        lg: "h-11 font-semibold text-base rounded-md px-6 has-[>svg]:px-4",
+        xl: "h-11.25 font-semibold text-base rounded-md px-6 has-[>svg]:px-4",
+        "2xl": "h-12.5 font-semibold text-base rounded-md px-6 has-[>svg]:px-4",
+
         icon: "size-9",
         "icon-xs": "size-6 rounded-md [&_svg:not([class*='size-'])]:size-3",
         "icon-sm": "size-8",
@@ -52,16 +63,6 @@ function Button({
 
   return (
     <>
-      {/* 
-    30  
-    33
-    40
-    44
-    45
-    50 */}
-
-      <div className="h-[50px] "></div>
-
       <Comp
         data-slot="button"
         data-variant={variant}

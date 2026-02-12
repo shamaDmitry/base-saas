@@ -31,7 +31,7 @@ const ResetPasswordPage = () => {
               </Field>
             </div>
 
-            <Button size="lg" className="w-full mb-7.5">
+            <Button size="2xl" className="w-full mb-7.5">
               Reset Your Password
             </Button>
           </form>

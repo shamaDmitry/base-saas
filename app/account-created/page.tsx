@@ -17,7 +17,7 @@ const AccountCreated = () => {
 
           <p>Your account successfully created.</p>
 
-          <Button asChild size="lg">
+          <Button asChild size="2xl">
             <Link href="/">Go to Home</Link>
           </Button>
         </CardContent>
