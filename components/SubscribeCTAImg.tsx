@@ -1,5 +1,5 @@
 import * as React from "react";
-const SubscribeCTAImg = (props) => (
+const SubscribeCTAImg = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     width={150}
     height={155}

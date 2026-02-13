@@ -51,8 +51,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const isExpanded = state === "expanded";
 
-  console.log(isExpanded);
-
   return (
     <Sidebar
       collapsible="icon"

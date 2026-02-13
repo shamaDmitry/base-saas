@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import SubscribeCTAImg from "./SubscribeCTAImg";
+import SubscribeCTAImg from "@/components/SubscribeCTAImg";
 
 const SubscribeCTA = () => {
   return (
