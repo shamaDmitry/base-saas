@@ -22,12 +22,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
 
         <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
-          {/* <header className="flex h-20 items-center justify-between px-8 bg-transparent">
-            <div className="flex items-center gap-4">
-              <SidebarTrigger className="h-10 w-10 rounded-xl bg-white text-slate-500 shadow-sm border border-slate-100 hover:bg-slate-50" />
-            </div>
-          </header> */}
-
           <div className="flex-1 overflow-auto p-7.5">{children}</div>
         </main>
       </div>
