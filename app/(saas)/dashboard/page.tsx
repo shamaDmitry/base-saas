@@ -50,12 +50,23 @@ const DashboardPage = () => {
 
   return (
     <div>
-      <Heading className="mb-7.5">Dashboard</Heading>
+      <div className="flex items-center justify-between mb-7.5">
+        <Heading className="">Dashboard</Heading>
+
+        <div className="max-w-68.75">
+          <DateRangePicker
+            value={dateRange}
+            onChange={setDateRange}
+            orientation="vertical"
+          />
+        </div>
+      </div>
 
       <Card className="mb-7.5">
         <CardHeader>
           <CardTitle>Date Range Filter</CardTitle>
         </CardHeader>
+
         <CardContent>
           <DateRangePicker
             value={dateRange}
@@ -64,14 +75,12 @@ const DashboardPage = () => {
             toLabel="End Date"
             orientation="horizontal"
           />
+
           {(dateRange.from || dateRange.to) && (
             <p className="mt-4 text-sm text-muted-foreground">
               Selected range:{" "}
-              {dateRange.from
-                ? dateRange.from.toLocaleDateString()
-                : "Not set"}{" "}
-              -{" "}
-              {dateRange.to ? dateRange.to.toLocaleDateString() : "Not set"}
+              {dateRange.from ? dateRange.from.toLocaleDateString() : "Not set"}{" "}
+              - {dateRange.to ? dateRange.to.toLocaleDateString() : "Not set"}
             </p>
           )}
         </CardContent>
