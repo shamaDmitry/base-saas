@@ -87,98 +87,99 @@ function DateRangePicker({
     <div
       data-slot="date-range-picker"
       data-orientation={orientation}
-      className={cn(dateRangePickerVariants({ orientation }), className)}
+      className={cn(className)}
       {...props}
     >
-      <Field className="flex-1">
-        <FieldContent>
-          <FieldLabel>{fromLabel}</FieldLabel>
-          <Popover open={fromOpen} onOpenChange={setFromOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full justify-start text-left font-normal",
-                  !value?.from && "text-muted-foreground",
-                )}
-                disabled={disabled}
-              >
-                {/* <CalendarIcon className="mr-2 h-4 w-4" /> */}
-                {value?.from ? (
-                  format(value.from, "PPP")
-                ) : (
-                  <span>{fromPlaceholder}</span>
-                )}
+      <div className={cn(dateRangePickerVariants({ orientation }))}>
+        <Field className="flex-1">
+          <FieldContent>
+            <FieldLabel>{fromLabel}</FieldLabel>
+            <Popover open={fromOpen} onOpenChange={setFromOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !value?.from && "text-muted-foreground",
+                  )}
+                  disabled={disabled}
+                >
+                  {value?.from ? (
+                    format(value.from, "dd-MM-yyyy")
+                  ) : (
+                    <span>{fromPlaceholder}</span>
+                  )}
 
-                <ChevronDown className="ml-auto" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={value?.from}
-                onSelect={handleFromSelect}
-                disabled={(date) =>
-                  disabled || (value?.to ? date > value.to : false)
-                }
-                modifiers={{
-                  range_end: value?.to ? [value.to] : [],
-                }}
-                modifiersClassNames={{
-                  range_end: "bg-primary/20 text-primary",
-                }}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-        </FieldContent>
-      </Field>
+                  <ChevronDown className="ml-auto" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={value?.from}
+                  onSelect={handleFromSelect}
+                  disabled={(date) =>
+                    disabled || (value?.to ? date > value.to : false)
+                  }
+                  modifiers={{
+                    range_end: value?.to ? [value.to] : [],
+                  }}
+                  modifiersClassNames={{
+                    range_end: "bg-primary/20 text-primary",
+                  }}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </FieldContent>
+        </Field>
 
-      <Field className="flex-1">
-        <FieldContent>
-          <FieldLabel>{toLabel}</FieldLabel>
-          <Popover open={toOpen} onOpenChange={setToOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full justify-start text-left font-normal",
-                  !value?.to && "text-muted-foreground",
-                )}
-                disabled={disabled}
-              >
-                {/* <CalendarIcon className="mr-2 h-4 w-4" /> */}
-                {value?.to ? (
-                  format(value.to, "PPP")
-                ) : (
-                  <span>{toPlaceholder}</span>
-                )}
+        <Field className="flex-1">
+          <FieldContent>
+            <FieldLabel>{toLabel}</FieldLabel>
+            <Popover open={toOpen} onOpenChange={setToOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !value?.to && "text-muted-foreground",
+                  )}
+                  disabled={disabled}
+                >
+                  {value?.to ? (
+                    format(value.to, "dd-MM-yyyy")
+                  ) : (
+                    <span>{toPlaceholder}</span>
+                  )}
 
-                <ChevronDown className="ml-auto" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={value?.to}
-                onSelect={handleToSelect}
-                disabled={(date) =>
-                  disabled || (value?.from ? date < value.from : false)
-                }
-                modifiers={{
-                  range_start: value?.from ? [value.from] : [],
-                }}
-                modifiersClassNames={{
-                  range_start: "bg-primary/20 text-primary",
-                }}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-        </FieldContent>
-      </Field>
+                  <ChevronDown className="ml-auto" />
+                </Button>
+              </PopoverTrigger>
 
-      {error && <FieldError className="mt-2">{error}</FieldError>}
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={value?.to}
+                  onSelect={handleToSelect}
+                  disabled={(date) =>
+                    disabled || (value?.from ? date < value.from : false)
+                  }
+                  modifiers={{
+                    range_start: value?.from ? [value.from] : [],
+                  }}
+                  modifiersClassNames={{
+                    range_start: "bg-primary/20 text-primary",
+                  }}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </FieldContent>
+        </Field>
+      </div>
+
+      {error && <FieldError className="mt-2 text-center"> {error}</FieldError>}
     </div>
   );
 }
