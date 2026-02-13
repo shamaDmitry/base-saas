@@ -2,9 +2,17 @@
 
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 import {
   Field,
   FieldLabel,
@@ -36,14 +44,12 @@ export interface DateRangePickerProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange">,
     VariantProps<typeof dateRangePickerVariants> {
   value?: DateRange
-  onChange?: (range: DateRange) => void
+  onChange?: (range: DateRange | undefined) => void
   fromLabel?: string
   toLabel?: string
   fromPlaceholder?: string
   toPlaceholder?: string
   disabled?: boolean
-  min?: string
-  max?: string
   error?: string
 }
 
@@ -54,51 +60,30 @@ function DateRangePicker({
   onChange,
   fromLabel = "From",
   toLabel = "To",
-  fromPlaceholder = "Start date",
-  toPlaceholder = "End date",
+  fromPlaceholder = "Pick a start date",
+  toPlaceholder = "Pick an end date",
   disabled = false,
-  min,
-  max,
   error,
   ...props
 }: DateRangePickerProps) {
-  // Convert Date objects to string format for input
-  const fromValue = value?.from
-    ? value.from.toISOString().split("T")[0]
-    : ""
-  const toValue = value?.to ? value.to.toISOString().split("T")[0] : ""
+  const [fromOpen, setFromOpen] = React.useState(false)
+  const [toOpen, setToOpen] = React.useState(false)
 
-  const handleFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDate = e.target.value
-      ? (() => {
-          const [year, month, day] = e.target.value.split("-").map(Number)
-          return new Date(year, month - 1, day)
-        })()
-      : undefined
+  const handleFromSelect = (date: Date | undefined) => {
     onChange?.({
-      from: newDate,
+      from: date,
       to: value?.to,
     })
+    setFromOpen(false)
   }
 
-  const handleToChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDate = e.target.value
-      ? (() => {
-          const [year, month, day] = e.target.value.split("-").map(Number)
-          return new Date(year, month - 1, day)
-        })()
-      : undefined
+  const handleToSelect = (date: Date | undefined) => {
     onChange?.({
       from: value?.from,
-      to: newDate,
+      to: date,
     })
+    setToOpen(false)
   }
-
-  // Calculate dynamic max for "from" input (cannot be after "to" date)
-  const fromMax = value?.to ? value.to.toISOString().split("T")[0] : max
-
-  // Calculate dynamic min for "to" input (cannot be before "from" date)
-  const toMin = value?.from ? value.from.toISOString().split("T")[0] : min
 
   return (
     <div
@@ -109,41 +94,79 @@ function DateRangePicker({
     >
       <Field className="flex-1">
         <FieldContent>
-          <FieldLabel htmlFor="date-from">{fromLabel}</FieldLabel>
-          <Input
-            id="date-from"
-            type="date"
-            value={fromValue}
-            onChange={handleFromChange}
-            placeholder={fromPlaceholder}
-            disabled={disabled}
-            min={min}
-            max={fromMax}
-            aria-invalid={!!error}
-          />
+          <FieldLabel>{fromLabel}</FieldLabel>
+          <Popover open={fromOpen} onOpenChange={setFromOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-full justify-start text-left font-normal",
+                  !value?.from && "text-muted-foreground"
+                )}
+                disabled={disabled}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {value?.from ? (
+                  format(value.from, "PPP")
+                ) : (
+                  <span>{fromPlaceholder}</span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={value?.from}
+                onSelect={handleFromSelect}
+                disabled={(date) =>
+                  disabled ||
+                  (value?.to ? date > value.to : false)
+                }
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
         </FieldContent>
       </Field>
 
       <Field className="flex-1">
         <FieldContent>
-          <FieldLabel htmlFor="date-to">{toLabel}</FieldLabel>
-          <Input
-            id="date-to"
-            type="date"
-            value={toValue}
-            onChange={handleToChange}
-            placeholder={toPlaceholder}
-            disabled={disabled}
-            min={toMin}
-            max={max}
-            aria-invalid={!!error}
-          />
+          <FieldLabel>{toLabel}</FieldLabel>
+          <Popover open={toOpen} onOpenChange={setToOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-full justify-start text-left font-normal",
+                  !value?.to && "text-muted-foreground"
+                )}
+                disabled={disabled}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {value?.to ? (
+                  format(value.to, "PPP")
+                ) : (
+                  <span>{toPlaceholder}</span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={value?.to}
+                onSelect={handleToSelect}
+                disabled={(date) =>
+                  disabled ||
+                  (value?.from ? date < value.from : false)
+                }
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
         </FieldContent>
       </Field>
 
-      {error && (
-        <FieldError className="mt-2">{error}</FieldError>
-      )}
+      {error && <FieldError className="mt-2">{error}</FieldError>}
     </div>
   )
 }
