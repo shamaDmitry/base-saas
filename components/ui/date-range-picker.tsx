@@ -44,7 +44,7 @@ export interface DateRangePickerProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange">,
     VariantProps<typeof dateRangePickerVariants> {
   value?: DateRange
-  onChange?: (range: DateRange | undefined) => void
+  onChange?: (range: DateRange) => void
   fromLabel?: string
   toLabel?: string
   fromPlaceholder?: string
