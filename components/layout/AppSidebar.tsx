@@ -26,13 +26,20 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Logo from "@/components/logo";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import SubscribeCTA from "@/components/SubscribeCTA";
 
 const navMain = [
-  { title: "Dashboard", url: "#", icon: LayoutDashboard, isActive: true },
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: LayoutDashboard,
+  },
   { title: "Analytics", url: "#", icon: BarChart2 },
-  { title: "Invoice", url: "#", icon: Ticket },
-  { title: "Schedule", url: "#", icon: ListTodo },
-  { title: "Calendar", url: "#", icon: Calendar },
+  { title: "Invoice", url: "/invoice", icon: Ticket },
+  { title: "Schedule", url: "/schedule", icon: ListTodo },
+  { title: "Calendar", url: "/calendar", icon: Calendar },
   { title: "Messages", url: "#", icon: MessageSquare, badge: "49" },
   { title: "Notification", url: "#", icon: Bell },
   { title: "Settings", url: "#", icon: Settings },
@@ -40,8 +47,11 @@ const navMain = [
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { state } = useSidebar();
+  const pathname = usePathname();
 
   const isExpanded = state === "expanded";
+
+  console.log(isExpanded);
 
   return (
     <Sidebar
@@ -57,48 +67,56 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             isExpanded ? "gap-3" : "justify-center",
           )}
         >
-          <Logo className="text-primary size-10.5"></Logo>
+          <SidebarTrigger className="h-10 w-10 rounded-xl bg-white text-slate-500 shadow-sm border border-slate-100 hover:bg-slate-50" />
 
-          {isExpanded && (
-            <span className="truncate font-semibold text-2xl text-foreground animate-in fade-in slide-in-from-left-2 duration-300">
-              Base
-            </span>
-          )}
+          <div className="flex items-center justify-center gap-3">
+            <Logo className="text-primary size-10.5" />
+
+            {isExpanded && (
+              <span className="truncate font-semibold text-2xl text-foreground animate-in fade-in slide-in-from-left-2 duration-300">
+                Base
+              </span>
+            )}
+          </div>
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="px-3">
-        <SidebarMenu className="gap-2">
+      <SidebarContent className="p-0">
+        <SidebarMenu className="gap-2 overflow-auto">
           {navMain.map((item) => {
             return (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton
+                  asChild
                   tooltip={!isExpanded ? item.title : undefined}
-                  isActive={item.isActive}
-                  className={`
-                  h-12 rounded-xl transition-all duration-200
-                  hover:bg-slate-50 hover:text-indigo-600
-                  data-[active=true]:bg-indigo-50 data-[active=true]:text-indigo-600
-                  ${isExpanded ? "justify-start px-4" : "justify-center px-0"}
-                `}
+                  isActive={pathname === item.url}
+                  className={cn(
+                    "h-12 text-black/50 rounded-xl transition-all duration-200  hover:bg-slate-50 hover:text-indigo-600 data-[active=true]:bg-indigo-50 data-[active=true]:text-indigo-600",
+                    {
+                      "px-4 justify-start": isExpanded,
+                      "px-0 justify-center": !isExpanded,
+                    },
+                  )}
                 >
-                  <item.icon className="size-6! shrink-0" />
+                  <Link href={item.url}>
+                    <item.icon className="size-6! shrink-0" />
 
-                  {isExpanded && (
-                    <span className="ml-3 text-sm font-medium animate-in fade-in slide-in-from-left-1">
-                      {item.title}
-                    </span>
-                  )}
+                    {isExpanded && (
+                      <span className="ml-3 text-sm font-medium animate-in fade-in slide-in-from-left-1">
+                        {item.title}
+                      </span>
+                    )}
 
-                  {item.badge && isExpanded && (
-                    <span className="ml-auto flex size-5 items-center justify-center rounded-full bg-red-100 text-[10px] font-bold text-red-500">
-                      {item.badge}
-                    </span>
-                  )}
+                    {item.badge && isExpanded && (
+                      <span className="ml-auto flex size-5 items-center justify-center rounded-full bg-red-100 text-[10px] font-bold text-red-500">
+                        {item.badge}
+                      </span>
+                    )}
 
-                  {item.badge && !isExpanded && (
-                    <div className="absolute top-3 right-3 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
-                  )}
+                    {item.badge && !isExpanded && (
+                      <div className="absolute top-3 right-3 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white" />
+                    )}
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             );
@@ -107,10 +125,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
 
       <SidebarFooter className="p-4">
-        <SidebarTrigger className="h-10 w-10 rounded-xl bg-white text-slate-500 shadow-sm border border-slate-100 hover:bg-slate-50" />
+        {!!isExpanded && <SubscribeCTA />}
 
         <div
-          className={`flex items-center rounded-2xl bg-slate-50 p-2 ${isExpanded ? "gap-3" : "justify-center"}`}
+          className={`mt-7.5 flex items-center rounded-2xl bg-slate-50 p-2 ${isExpanded ? "gap-3" : "justify-center"}`}
         >
           <Avatar className="h-10 w-10 rounded-xl border-2 border-white shadow-sm">
             <AvatarImage src="/images/avatar.png" />
