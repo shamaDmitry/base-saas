@@ -121,6 +121,12 @@ function DateRangePicker({
                 disabled={(date) =>
                   disabled || (value?.to ? date > value.to : false)
                 }
+                modifiers={{
+                  range_end: value?.to ? [value.to] : [],
+                }}
+                modifiersClassNames={{
+                  range_end: "bg-primary/20 text-primary",
+                }}
                 initialFocus
               />
             </PopoverContent>
@@ -159,6 +165,12 @@ function DateRangePicker({
                 disabled={(date) =>
                   disabled || (value?.from ? date < value.from : false)
                 }
+                modifiers={{
+                  range_start: value?.from ? [value.from] : [],
+                }}
+                modifiersClassNames={{
+                  range_start: "bg-primary/20 text-primary",
+                }}
                 initialFocus
               />
             </PopoverContent>
@@ -166,7 +178,7 @@ function DateRangePicker({
         </FieldContent>
       </Field>
 
-      {!error && <FieldError className="mt-2">asdasd{error}</FieldError>}
+      {error && <FieldError className="mt-2">{error}</FieldError>}
     </div>
   );
 }
