@@ -69,7 +69,12 @@ function DateRangePicker({
   const toValue = value?.to ? value.to.toISOString().split("T")[0] : ""
 
   const handleFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDate = e.target.value ? new Date(e.target.value) : undefined
+    const newDate = e.target.value
+      ? (() => {
+          const [year, month, day] = e.target.value.split("-").map(Number)
+          return new Date(year, month - 1, day)
+        })()
+      : undefined
     onChange?.({
       from: newDate,
       to: value?.to,
@@ -77,7 +82,12 @@ function DateRangePicker({
   }
 
   const handleToChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newDate = e.target.value ? new Date(e.target.value) : undefined
+    const newDate = e.target.value
+      ? (() => {
+          const [year, month, day] = e.target.value.split("-").map(Number)
+          return new Date(year, month - 1, day)
+        })()
+      : undefined
     onChange?.({
       from: value?.from,
       to: newDate,
@@ -132,7 +142,7 @@ function DateRangePicker({
       </Field>
 
       {error && (
-        <FieldError className="col-span-full mt-2">{error}</FieldError>
+        <FieldError className="mt-2">{error}</FieldError>
       )}
     </div>
   )
