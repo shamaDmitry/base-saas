@@ -1,5 +1,5 @@
 import { AppSidebar } from "@/components/layout/AppSidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -22,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
 
         <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
-          <div className="flex-1 overflow-auto p-7.5">{children}</div>
+          <div className="overflow-auto p-7.5">{children}</div>
         </main>
       </div>
     </SidebarProvider>

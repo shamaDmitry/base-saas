@@ -18,7 +18,7 @@ interface ProductItemProps {
 const ProductItem: React.FC<ProductItemProps> = ({ product }) => {
   return (
     <div className="flex items-center space-x-4 py-4">
-      <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-lg bg-blue-100 p-2 flex items-center justify-center">
+      <div className="h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-blue-100 p-2 flex items-center justify-center">
         <Image
           src={product.image}
           alt={product.name}
