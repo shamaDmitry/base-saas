@@ -12,6 +12,8 @@ import { useState } from "react";
 import TopSellingProducts from "@/components/pages/dashboard/TopSellingProducts";
 import CustomCard from "@/components/custom/CustomCard";
 import ProductAddChart from "@/components/pages/dashboard/ProductAddChart";
+import SalesChart from "@/components/pages/dashboard/SalesChart";
+import AnalyticsChart from "@/components/pages/dashboard/AnalyticsChart";
 
 const cardData = [
   {
@@ -77,7 +79,7 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      <div className="flex w-full *:flex-1 gap-7.5 mb-7.5">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-7.5 mb-7.5">
         {cardData.map((item) => {
           return (
             <AnalyticCard
@@ -89,26 +91,20 @@ const DashboardPage = () => {
         })}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-7.5 mb-7.5">
-        <CustomCard title="Product Add by Month">graph</CustomCard>
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-7.5 mb-7.5">
+        <CustomCard title="Reports">
+          <SalesChart />
+        </CustomCard>
 
-        <TopSellingProducts products={products} />
+        <CustomCard title="Analytics">
+          <AnalyticsChart />
+        </CustomCard>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-7.5">
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-7.5">
         <CustomCard title="Recent Orders">table</CustomCard>
 
-        <ProductAddChart
-          chartData={[
-            { month: "Jan", value: 23400 },
-            { month: "Feb", value: 15000 },
-            { month: "Mar", value: 30000 },
-            { month: "Apr", value: 22000 },
-            { month: "May", value: 10000 },
-            { month: "Jun", value: 23400 },
-            { month: "Jul", value: 5000 },
-          ]}
-        />
+        <TopSellingProducts products={products} />
       </div>
     </div>
   );

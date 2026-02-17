@@ -36,7 +36,7 @@ const navMain = [
     url: "/dashboard",
     icon: LayoutDashboard,
   },
-  { title: "Analytics", url: "#", icon: BarChart2 },
+  { title: "Analytics", url: "/analytics", icon: BarChart2 },
   { title: "Invoice", url: "/invoice", icon: Ticket },
   { title: "Schedule", url: "/schedule", icon: ListTodo },
   { title: "Calendar", url: "/calendar", icon: Calendar },

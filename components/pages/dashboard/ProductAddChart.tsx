@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CustomCard from "@/components/custom/CustomCard";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 
@@ -25,39 +25,32 @@ const ProductAddChart: React.FC<ProductAddChartProps> = ({ chartData }) => {
   const maxVal = Math.max(...chartData.map((d) => d.value));
 
   return (
-    <Card className="w-full shadow-sm border-none">
-      <CardHeader>
-        <CardTitle className="text-xl font-bold text-gray-700">
-          Product Add by Month
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-6">
-        {chartData.map((item) => {
-          const intent = item.value < 23000 ? "low" : "high";
+    <CustomCard title="Product Add by Month">
+      {chartData.map((item) => {
+        const intent = item.value < 23000 ? "low" : "high";
 
-          const widthPercent = Math.max((item.value / maxVal) * 100, 2);
+        const widthPercent = Math.max((item.value / maxVal) * 100, 2);
 
-          return (
-            <div key={item.month} className="flex items-center gap-4">
-              <span className="w-8 text-sm font-medium text-gray-500">
-                {item.month}
-              </span>
+        return (
+          <div key={item.month} className="flex items-center gap-4">
+            <span className="w-8 text-sm font-medium text-gray-500">
+              {item.month}
+            </span>
 
-              <div className="flex-1">
-                <div
-                  className={cn(barVariants({ intent }))}
-                  style={{ width: `${widthPercent}%` }}
-                />
-              </div>
-
-              <span className="w-16 text-right text-sm font-semibold text-gray-700">
-                {item.value.toLocaleString()}
-              </span>
+            <div className="flex-1">
+              <div
+                className={cn(barVariants({ intent }))}
+                style={{ width: `${widthPercent}%` }}
+              />
             </div>
-          );
-        })}
-      </CardContent>
-    </Card>
+
+            <span className="w-16 text-right text-sm font-semibold text-gray-700">
+              {item.value.toLocaleString()}
+            </span>
+          </div>
+        );
+      })}
+    </CustomCard>
   );
 };
 
