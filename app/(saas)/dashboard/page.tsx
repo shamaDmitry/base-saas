@@ -14,6 +14,7 @@ import CustomCard from "@/components/custom/CustomCard";
 import ProductAddChart from "@/components/pages/dashboard/ProductAddChart";
 import SalesChart from "@/components/pages/dashboard/SalesChart";
 import AnalyticsChart from "@/components/pages/dashboard/AnalyticsChart";
+import RecentOrdersDataTable from "@/components/pages/dashboard/RecentOrdersDataTable";
 
 const cardData = [
   {
@@ -71,7 +72,7 @@ const DashboardPage = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-7.5">
+      <div className="flex items-center justify-between mb-7.5 flex-col md:flex-row">
         <Heading className="">Dashboard</Heading>
 
         <div className="">
@@ -79,7 +80,7 @@ const DashboardPage = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-7.5 mb-7.5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7.5 mb-7.5">
         {cardData.map((item) => {
           return (
             <AnalyticCard
@@ -102,7 +103,9 @@ const DashboardPage = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-7.5">
-        <CustomCard title="Recent Orders">table</CustomCard>
+        <CustomCard title="Recent Orders">
+          <RecentOrdersDataTable />
+        </CustomCard>
 
         <TopSellingProducts products={products} />
       </div>

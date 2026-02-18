@@ -10,6 +10,7 @@ import {
   Bell,
   Settings,
   LogOut,
+  Users,
 } from "lucide-react";
 
 import {
@@ -37,6 +38,7 @@ const navMain = [
     icon: LayoutDashboard,
   },
   { title: "Analytics", url: "/analytics", icon: BarChart2 },
+  { title: "Customer List", url: "/customers", icon: Users },
   { title: "Invoice", url: "/invoice", icon: Ticket },
   { title: "Schedule", url: "/schedule", icon: ListTodo },
   { title: "Calendar", url: "/calendar", icon: Calendar },
@@ -79,8 +81,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="p-0">
-        <SidebarMenu className="gap-2 overflow-auto">
+      <SidebarContent className="p-0 min-h-60">
+        <SidebarMenu className="gap-2 overflow-auto ">
           {navMain.map((item) => {
             return (
               <SidebarMenuItem key={item.title}>
