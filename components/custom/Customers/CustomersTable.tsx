@@ -4,10 +4,19 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   Row,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUp,
+  ArrowUpDown,
+  MoreHorizontal,
+  Pencil,
+  Trash2,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -27,6 +36,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useState } from "react";
 
 export type Customer = {
   id: string;
@@ -38,19 +48,64 @@ export type Customer = {
   avatarUrl: string;
 };
 
-const handleEdit = (id: string) => {
-  console.log(`Edit customer ${id}`);
-  // router.push(`/customers/${id}/edit`)
-};
+function CustomerActions({ customerId }: { customerId: string }) {
+  const router = useRouter();
 
-const handleDelete = (id: string) => {
-  console.log(`Delete customer ${id}`);
-  // api.delete(...)
-};
+  const handleEdit = (id: string) => {
+    router.push(`/customers/${id}?edit=true`);
+  };
+
+  const handleDelete = (id: string) => {
+    console.log(`Delete customer ${id}`);
+    // api.delete(...)
+  };
+
+  return (
+    <div className="text-right">
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-5 w-5" />
+          </Button>
+        </DropdownMenuTrigger>
+
+        <DropdownMenuContent align="end" className="w-32">
+          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuItem
+            onClick={(e) => {
+              e.stopPropagation();
+              handleEdit(customerId);
+            }}
+            className="cursor-pointer text-blue-600 focus:text-blue-700"
+          >
+            <Pencil className="mr-2 h-4 w-4" />
+            Edit
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(customerId);
+            }}
+            className="cursor-pointer text-red-600 focus:text-red-700 focus:bg-red-50"
+          >
+            <Trash2 className="mr-2 h-4 w-4" />
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+}
 
 export const columns: ColumnDef<Customer>[] = [
   {
-    accessorKey: "name", // Virtual accessor for sorting/filtering ease
+    accessorFn: (row) => `${row.firstName} ${row.lastName}`,
+    id: "name",
     header: "Name",
     cell: ({ row }) => {
       const customer = row.original;
@@ -110,47 +165,7 @@ export const columns: ColumnDef<Customer>[] = [
     cell: ({ row }) => {
       const customer = row.original;
 
-      return (
-        <div className="text-right">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="h-8 w-8 p-0 text-gray-400 hover:text-gray-600"
-                // STOP PROPAGATION: Prevents the row click event from firing
-                onClick={(e) => e.stopPropagation()}
-              >
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-5 w-5" />
-              </Button>
-            </DropdownMenuTrigger>
-
-            <DropdownMenuContent align="end" className="w-32">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleEdit(customer.id);
-                }}
-                className="cursor-pointer text-blue-600 focus:text-blue-700"
-              >
-                <Pencil className="mr-2 h-4 w-4" />
-                Edit
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDelete(customer.id);
-                }}
-                className="cursor-pointer text-red-600 focus:text-red-700 focus:bg-red-50"
-              >
-                <Trash2 className="mr-2 h-4 w-4" />
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      );
+      return <CustomerActions customerId={customer.id} />;
     },
   },
 ];
@@ -166,15 +181,20 @@ export function CustomersTable<TData extends { id: string }, TValue>({
 }: CustomersTableProps<TData, TValue>) {
   const router = useRouter();
 
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+
+    state: {
+      sorting,
+    },
   });
 
-  // Navigation handler
-  // We assume the data object has an 'id' property.
-  // If TData is generic, you might need to assert type or pass id differently.
   const handleRowClick = (row: Row<TData>) => {
     console.log("row.original", row.original);
 
@@ -194,20 +214,37 @@ export function CustomersTable<TData extends { id: string }, TValue>({
                 return (
                   <TableHead
                     key={header.id}
-                    className="text-gray-500 font-medium"
+                    onClick={header.column.getToggleSortingHandler()}
+                    className={`text-gray-500 font-medium ${
+                      header.column.getCanSort()
+                        ? "cursor-pointer select-none"
+                        : ""
+                    }`}
                   >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
+                    {header.isPlaceholder ? null : (
+                      <div className="flex items-center gap-1">
+                        {flexRender(
                           header.column.columnDef.header,
                           header.getContext(),
                         )}
+
+                        {header.column.getCanSort() &&
+                          (header.column.getIsSorted() === "asc" ? (
+                            <ArrowUp className="h-3.5 w-3.5" />
+                          ) : header.column.getIsSorted() === "desc" ? (
+                            <ArrowDown className="h-3.5 w-3.5" />
+                          ) : (
+                            <ArrowUpDown className="h-3.5 w-3.5 text-gray-400" />
+                          ))}
+                      </div>
+                    )}
                   </TableHead>
                 );
               })}
             </TableRow>
           ))}
         </TableHeader>
+
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (

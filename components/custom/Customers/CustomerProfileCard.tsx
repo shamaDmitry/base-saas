@@ -214,8 +214,8 @@ const CircularProgress: React.FC<{
 
 const CustomerProfileCard: React.FC = () => {
   return (
-    <Card className="w-full max-w-75.5 mx-auto bg-white border-none shadow-none rounded-[10px] overflow-hidden">
-      <CardContent className="p-8 flex flex-col gap-8">
+    <Card className="w-full bg-white border-none shadow-none rounded-[10px] overflow-hidden">
+      <CardContent className="p-6.25 flex flex-col gap-8">
         <Button
           asChild
           variant="ghost"

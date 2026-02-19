@@ -2,12 +2,14 @@
 
 import CustomCard from "@/components/custom/CustomCard";
 import Heading from "@/components/custom/Heading";
+import AddProductSheet from "@/components/custom/Products/AddProductSheet";
 import MetricCard from "@/components/pages/analytics/MetricCard";
 import ProductSalesAnalyticsChart from "@/components/pages/analytics/ProductSalesAnalyticsChart";
 import ProductAddChart from "@/components/pages/dashboard/ProductAddChart";
 import RecentOrdersDataTable from "@/components/pages/dashboard/RecentOrdersDataTable";
 import { Button } from "@/components/ui/button";
 import { DateRange, DateRangePicker } from "@/components/ui/date-range-picker";
+import { openAddProductDrawer } from "@/lib/stores/products-drawer-store";
 import { Box, Plus, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 
@@ -48,7 +50,7 @@ const AnalyticsPage = () => {
       </div>
 
       <div className="flex justify-end gap-4 items-center mb-4">
-        <Button>
+        <Button onClick={openAddProductDrawer}>
           <Plus />
           Add Product
         </Button>
@@ -109,6 +111,8 @@ const AnalyticsPage = () => {
           </CustomCard>
         </div>
       </div>
+
+      <AddProductSheet />
     </div>
   );
 };

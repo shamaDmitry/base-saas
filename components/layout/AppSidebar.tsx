@@ -39,7 +39,7 @@ const navMain = [
   },
   { title: "Analytics", url: "/analytics", icon: BarChart2 },
   { title: "Customer List", url: "/customers", icon: Users },
-  { title: "Invoice", url: "/invoice", icon: Ticket },
+  { title: "Invoice", url: "/invoices", icon: Ticket },
   { title: "Schedule", url: "/schedule", icon: ListTodo },
   { title: "Calendar", url: "/calendar", icon: Calendar },
   { title: "Messages", url: "#", icon: MessageSquare, badge: "49" },

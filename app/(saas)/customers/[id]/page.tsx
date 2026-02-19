@@ -2,7 +2,7 @@ import CustomerProfileCard from "@/components/custom/Customers/CustomerProfileCa
 
 const CustomerPage = () => {
   return (
-    <div className="pl-7.5 -m-7.5 ml-0">
+    <div className="ml-0 max-w-102.25 w-full">
       <CustomerProfileCard />
     </div>
   );

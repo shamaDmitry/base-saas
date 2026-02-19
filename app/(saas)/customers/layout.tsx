@@ -45,8 +45,8 @@ const CustomersLayout = async ({ children }: { children: React.ReactNode }) => {
   const data = await getData();
 
   return (
-    <div className="flex items-start">
-      <div className="flex-1">
+    <div className="flex items-start -m-7.5">
+      <div className="flex-1 p-7.5">
         <div className="flex items-center justify-between mb-7.5">
           <Heading className="">Customer List</Heading>
 
@@ -60,7 +60,7 @@ const CustomersLayout = async ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-7.5">
+        <div className="flex flex-col gap-7.5 flex-1">
           <CustomersTable data={data} columns={columns} />
         </div>
       </div>

@@ -244,6 +244,7 @@ export default function RecentOrdersDataTable() {
           </TableRow>
         ))}
       </TableHeader>
+
       <TableBody>
         {table.getRowModel().rows?.length ? (
           table.getRowModel().rows.map((row) => (

@@ -15,7 +15,7 @@ import Link from "next/link";
 
 const AddCustomerForm = () => {
   return (
-    <Card className="w-full max-w-md mx-auto border-none shadow-lg rounded-2xl bg-white">
+    <Card className="w-102.25 mx-auto border-none shadow-none rounded-[10px] h-full bg-white">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-xl font-bold text-gray-900">
           Add Customer
