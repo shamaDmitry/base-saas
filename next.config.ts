@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
         hostname: "placehold.co",
         pathname: "/**", // Allows all paths from this domain
       },
+      {
+        protocol: "https",
+        hostname: "i.pravatar.cc",
+        pathname: "/**", // Allows all paths from this domain
+      },
     ],
   },
 };

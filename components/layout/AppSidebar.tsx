@@ -89,7 +89,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuButton
                   asChild
                   tooltip={!isExpanded ? item.title : undefined}
-                  isActive={pathname === item.url}
+                  isActive={pathname.startsWith(item.url)}
                   className={cn(
                     "h-12 text-black/50 rounded-xl transition-all duration-200  hover:bg-slate-50 hover:text-indigo-600 data-[active=true]:bg-indigo-50 data-[active=true]:text-indigo-600",
                     {
