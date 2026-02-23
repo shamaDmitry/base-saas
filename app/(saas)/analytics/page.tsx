@@ -41,7 +41,7 @@ const AnalyticsPage = () => {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-7.5">
+      <div className="flex items-center flex-col md:flex-row justify-between mb-7.5">
         <Heading className="">Product Analytics</Heading>
 
         <div className="">
@@ -58,7 +58,7 @@ const AnalyticsPage = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-7.5 mb-7.5">
         <div className="flex flex-col gap-7.5">
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-2 lg:gap-[29.5px]">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-[29.5px]">
             <MetricCard
               title="Total Product"
               value="5,00,874"

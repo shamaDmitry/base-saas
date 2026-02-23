@@ -35,6 +35,7 @@ import {
   CalendarEvent,
   ViewType,
 } from "@/lib/stores/useCalendarStore";
+import { cn } from "@/lib/utils";
 
 const locales = {
   "en-US": enUS,
@@ -83,7 +84,10 @@ const CustomToolbar = (toolbar: ToolbarProps<CalendarEvent>) => {
 const CustomEvent = ({ event }: EventProps<CalendarEvent>) => {
   return (
     <div
-      className={`w-full h-full p-2 rounded-lg flex items-center justify-center text-white text-sm font-medium shadow-sm ${event.color}`}
+      className={cn(
+        "w-full h-full p-2 rounded-lg flex items-center justify-center text-white text-sm font-medium shadow-sm",
+        event.color,
+      )}
     >
       {event.title}
     </div>
@@ -91,7 +95,7 @@ const CustomEvent = ({ event }: EventProps<CalendarEvent>) => {
 };
 
 const YearView: CustomViewComponent = ({ date }) => {
-  const { currentDate, setCurrentDate, setView } = useCalendarStore();
+  const { currentDate, setCurrentDate, setView, events } = useCalendarStore();
 
   const yearStart = startOfYear(date);
   const yearEnd = endOfYear(date);
@@ -116,20 +120,26 @@ const YearView: CustomViewComponent = ({ date }) => {
             </h3>
 
             <div className="grid grid-cols-7 mb-2">
-              {weekDays.map((d, i) => (
-                <div
-                  key={i}
-                  className="text-xs text-gray-400 text-center font-medium"
-                >
-                  {d}
-                </div>
-              ))}
+              {weekDays.map((d, i) => {
+                return (
+                  <div
+                    key={i}
+                    className="text-xs text-gray-400 text-center font-medium"
+                  >
+                    {d}
+                  </div>
+                );
+              })}
             </div>
 
             <div className="grid grid-cols-7 gap-y-1">
               {days.map((day, i) => {
                 const isCurrentMonth = isSameMonth(day, monthDate);
                 const isSelected = isSameDay(day, currentDate);
+
+                const hasEvents = events.some((event) =>
+                  isSameDay(event.start, day),
+                );
 
                 return (
                   <button
@@ -139,14 +149,27 @@ const YearView: CustomViewComponent = ({ date }) => {
                       setView("day");
                     }}
                     disabled={!isCurrentMonth}
-                    className={`
-                      h-8 w-8 flex items-center justify-center text-[13px] rounded-full mx-auto transition-colors
-                      ${!isCurrentMonth ? "text-gray-300" : "text-gray-700"}
-                      ${isSelected && isCurrentMonth ? "bg-indigo-500 text-white font-medium shadow-sm shadow-indigo-200" : ""}
-                      ${!isSelected && isCurrentMonth ? "hover:bg-gray-100" : ""}
-                    `}
+                    className={cn(
+                      "relative h-8 w-8 flex flex-col items-center justify-center text-[13px] rounded-full mx-auto transition-colors",
+                      !isCurrentMonth ? "text-gray-300" : "text-gray-700",
+                      isSelected &&
+                        isCurrentMonth &&
+                        "bg-indigo-500 text-white font-medium shadow-sm shadow-indigo-200",
+                      !isSelected && isCurrentMonth && "hover:bg-gray-100",
+                    )}
                   >
-                    {format(day, "d")}
+                    <span className={cn(hasEvents && "mb-1")}>
+                      {format(day, "d")}
+                    </span>
+
+                    {hasEvents && isCurrentMonth && (
+                      <span
+                        className={cn(
+                          "absolute bottom-1 w-1 h-1 rounded-full",
+                          isSelected ? "bg-white" : "bg-indigo-400",
+                        )}
+                      />
+                    )}
                   </button>
                 );
               })}
@@ -195,7 +218,7 @@ export function DayViewCalendar() {
   const currentRbcView = view as unknown as View;
 
   return (
-    <div className="grow bg-white p-8 rounded-2xl shadow-sm h-[calc(100vh-120px)] flex flex-col overflow-hidden">
+    <div className="grow bg-white p-8 rounded-2xl shadow-sm h-[calc(100vh-120px)] flex flex-col overflow-hidden min-h-[630px]">
       <Calendar<CalendarEvent>
         localizer={localizer}
         events={events}

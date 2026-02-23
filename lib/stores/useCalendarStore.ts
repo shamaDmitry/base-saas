@@ -28,6 +28,13 @@ export const useCalendarStore = create<CalendarState>((set) => {
     view: "day",
     events: [
       {
+        id: "0",
+        title: "Invited",
+        start: new Date(currentYear, 2, 2, 9, 0),
+        end: new Date(currentYear, 2, 2, 10, 0),
+        color: "bg-orange-400",
+      },
+      {
         id: "1",
         title: "Invited by friends",
         start: new Date(currentYear, currentMonth, 2, 9, 0),

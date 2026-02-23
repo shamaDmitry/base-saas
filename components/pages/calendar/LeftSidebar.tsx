@@ -28,7 +28,7 @@ export function LeftSidebar() {
   const { currentDate, setCurrentDate } = useCalendarStore();
 
   return (
-    <div className="w-75 shrink-0 bg-white p-6 rounded-2xl shadow-sm flex flex-col gap-6 h-[calc(100vh-120px)] overflow-y-auto">
+    <div className="shrink-0 bg-white p-6 rounded-2xl shadow-sm flex flex-col gap-6 h-[calc(100vh-120px)] min-h-[630px] overflow-y-auto">
       <Button className="w-full bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl py-6 shadow-md shadow-indigo-200">
         + Create Schedule
       </Button>

@@ -11,7 +11,6 @@ import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import TopSellingProducts from "@/components/pages/dashboard/TopSellingProducts";
 import CustomCard from "@/components/custom/CustomCard";
-import ProductAddChart from "@/components/pages/dashboard/ProductAddChart";
 import SalesChart from "@/components/pages/dashboard/SalesChart";
 import AnalyticsChart from "@/components/pages/dashboard/AnalyticsChart";
 import RecentOrdersDataTable from "@/components/pages/dashboard/RecentOrdersDataTable";
